@@ -129,9 +129,9 @@
         },
         "template" : "index.html",
         "devServer" : {
-            "port" : 80,
+            "port" : 30080,
             "disableHostCheck" : true,
-            "https" : true
+            "https" : false
         },
         "sdkConfigs" : {
             "maps" : {

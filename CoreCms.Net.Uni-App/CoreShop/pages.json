@@ -60,6 +60,27 @@
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "商品列表"
       }
+    },
+    {
+      "path": "pages/login/loginBySMS/loginBySMS",
+      "style": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "短信登录"
+      }
+    },
+    {
+      "path": "pages/login/loginByAccount/loginByAccount",
+      "style": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "密码登录"
+      }
+    },
+    {
+      "path": "pages/login/forget/forget",
+      "style": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "忘记密码"
+      }
     }
   ],
   "subpackages": [
