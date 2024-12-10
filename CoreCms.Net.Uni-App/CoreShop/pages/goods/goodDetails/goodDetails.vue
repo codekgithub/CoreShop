@@ -244,7 +244,7 @@
 
          <!--推荐列表-->
         <view class="coreshop-goods-group" v-if="otherRecommendData.length>0">
-            <u-grid col="2" :border="false" :align="center">
+            <u-grid col="2" :border="false" align="center">
                 <u-grid-item bg-color="transparent" :custom-style="{padding: '0rpx'}" v-for="(item, index) in otherRecommendData" :key="index" @click="goGoodsDetail(item.id)">
                     <view class="good_box">
                         <!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
@@ -279,7 +279,7 @@
                     </button>
                 </view>
                 <view class="action"  @click="collection">
-                    <u-icon :name="[isfav?'star-fill':'star']" :size="40" :label="isfav?'已收藏':'收藏'" :label-size="22" label-pos="bottom"></u-icon>
+                    <u-icon :name="isfav?'star-fill':'star'" :size="40" :label="isfav?'已收藏':'收藏'" :label-size="22" label-pos="bottom"></u-icon>
                 </view>
 
                 <view class="action" @click="redirectCart">
@@ -348,10 +348,11 @@
                         </view>
                         <!--规格数据-->
                         <view class="coreshop-select-btn-list-box">
-                            <spec :spesData="defaultSpesDesc" ref="spec" @changeSpes="changeSpes"></spec>
+                            <spec :spesData="defaultSpesDesc" ref="spec" @changeSpes="changeSpes" ></spec>
                             <view class="select-item">
                                 <view class="coreshop-text-black">数量</view>
                                 <view class="select-btn">
+									
                                     <u-number-box v-model="buyNum" :min="minNums" :max="product.stock"></u-number-box>
                                 </view>
                             </view>
@@ -524,6 +525,7 @@
                 return this.$globalConstVars.apiBaseUrl + 'wap/' + page.route + '?id=' + this.goodsId;
             },
             defaultSpesDesc() {
+				// console.log(this.product.defaultSpecificationDescription);
                 return this.product.defaultSpecificationDescription;
             }
         },
@@ -534,7 +536,7 @@
             getServiceDescription() {
                 let _this = this;
                 this.$u.api.getServiceDescription().then(res => {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status == true) {
                         _this.serviceDescription.commonQuestion = res.data.commonQuestion;
                         _this.serviceDescription.delivery = res.data.delivery;

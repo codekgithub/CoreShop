@@ -7,7 +7,7 @@
                     <u-section font-size="30" :title="coreshopdata.parameters.title" v-if="coreshopdata.parameters.title != ''" @click="coreshopdata.parameters.lookMore == 'true' ? goGoodsList({catId: coreshopdata.parameters.classifyId,brandId:coreshopdata.parameters.brandId}) :''" :arrow="coreshopdata.parameters.lookMore == 'true'" :sub-title="coreshopdata.parameters.lookMore == 'true'?'更多':''"></u-section>
                 </view>
                 <view class="" v-if="count">
-                    <u-grid :col="coreshopdata.parameters.column" :border="false" :align="center">
+                    <u-grid :col="coreshopdata.parameters.column" :border="false" align="left">
                         <u-grid-item bg-color="transparent" :custom-style="{padding: '0rpx'}" v-for="(item, index) in coreshopdata.parameters.list" :key="index" @click="goGoodsDetail(item.id)">
                             <view class="good_box">
                                 <!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <view class="memberBox">
         <u-toast ref="uToast" /><u-no-network></u-no-network>
         <u-navbar :is-back="true" back-icon-name="scan" back-icon-color="#000" title="会员中心"></u-navbar>
@@ -12,7 +12,9 @@
                 <view class="login-user-view" v-if="!hasLogin">
                     <view class="login-user-avatar-view">
                         <view class="account-face grace-box-shadow">
+							<!-- #ifdef MP-WEIXIN -->
                             <open-data type="userAvatarUrl"></open-data>
+							<!-- #endif -->
                         </view>
                     </view>
                     <u-button type="default" size="mini" @click="goLogin()">立即登录</u-button>
@@ -47,7 +49,7 @@
             <!--用户数据-->
 
             <view class="user-info-num-box">
-                <u-grid :col="4" :border="false" :bg-color="transparent">
+                <u-grid :col="4" :border="false" >
                     <u-grid-item bg-color="transparent" @tap="navigateToHandle('/pages/member/history/index')" :custom-style="{padding: '5rpx 0'}">
                         <view class="u-font-36" v-if="!hasLogin">-</view>
                         <view class="u-font-36" v-else>{{ userInfo.footPrintCount }}</view>
