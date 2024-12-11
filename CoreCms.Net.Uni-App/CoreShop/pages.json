@@ -72,7 +72,7 @@
       "path": "pages/login/loginByAccount/loginByAccount",
       "style": {
         "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "密码登录"
+        "navigationBarTitleText": "账号登录"
       }
     },
     {

@@ -166,7 +166,7 @@
 
                 this.$u.api.login(data).then(res => {
                     if (res.status) {
-                        this.$db.set('userToken', res.data);
+                        this.$db.set('userToken', res.data.token);
                         this.redirectHandler();
                     } else {
 

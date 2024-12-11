@@ -890,6 +890,13 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:CoreCms.Net.Web.WebApi.Controllers.UserController.Login(CoreCms.Net.Model.FromBody.FMWxAccountCreate)">
+            <summary>
+            账号密码登录
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
         <member name="M:CoreCms.Net.Web.WebApi.Controllers.UserController.DecryptPhoneNumber(CoreCms.Net.Model.FromBody.FMWxLoginDecryptPhoneNumber)">
             <summary>
             微信小程序授权拉取手机号码

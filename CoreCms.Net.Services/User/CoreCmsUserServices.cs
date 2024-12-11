@@ -641,7 +641,213 @@ namespace CoreCms.Net.Services
 
         #endregion
 
+        #region 账号密码登录
 
+        /// <summary>
+        /// 账号密码登录
+        /// </summary>
+        /// <param name="entity">实体数据</param>
+        /// <param name="loginType">登录方式(1普通,2短信,3微信小程序拉取手机号)</param>
+        /// <param name="platform"></param>
+        /// <returns></returns>
+        public async Task<WebApiCallBack> Login(FMWxAccountCreate entity, int loginType = (int)GlobalEnumVars.LoginType.WeChatPhoneNumber, int platform = 1)
+        {
+            var jm = new WebApiCallBack();
+
+            if (string.IsNullOrEmpty(entity.mobile))
+            {
+                jm.msg = "请输入手机号码";
+                return jm;
+            }
+            if (string.IsNullOrEmpty(entity.password))
+            {
+                jm.msg = "请输入密码";
+                return jm;
+            }
+            if (!CommonHelper.IsMobile(entity.mobile))
+            {
+                jm.msg = "请输入合法的手机号码";
+                return jm;
+            }
+
+            //if (loginType == (int)GlobalEnumVars.LoginType.Sms)
+            //{
+            //    if (string.IsNullOrEmpty(entity.code))
+            //    {
+            //        jm.msg = "请输入验证码";
+            //        return jm;
+            //    }
+
+            //    if (!await _smsServices.Check(entity.mobile, entity.code, "login"))
+            //    {
+            //        jm.msg = "短信验证码错误";
+            //        return jm;
+            //    }
+            //}
+
+            var isReg = false;
+            var userInfo = await _dal.QueryByClauseAsync(p => p.mobile == entity.mobile);
+            if (userInfo == null)
+            {
+                jm.msg = GlobalErrorCodeVars.Code11032;
+                return jm;
+                //isReg = true;
+                //userInfo = new CoreCmsUser();
+                //userInfo.userName = entity.mobile;
+                //userInfo.mobile = entity.mobile;
+                //userInfo.sex = 3;
+                //userInfo.isDelete = false;
+                //userInfo.balance = 0;
+                //userInfo.point = 0;
+                //userInfo.userWx = 0;
+                //userInfo.status = (int)GlobalEnumVars.UserStatus.正常;
+                //userInfo.createTime = DateTime.Now;
+
+                ////没有此用户，创建此用户
+                //if (!string.IsNullOrEmpty(entity.sessionAuthId))
+                //{
+                //    var wxUserInfo = await _userWeChatInfoServices.QueryByClauseAsync(p => p.openid == entity.sessionAuthId);
+                //    if (wxUserInfo != null)
+                //    {
+                //        if (string.IsNullOrEmpty(entity.avatar))
+                //        {
+                //            entity.avatar = wxUserInfo.avatar;
+                //        }
+                //        if (string.IsNullOrEmpty(entity.nickname))
+                //        {
+                //            entity.nickname = wxUserInfo.nickName;
+                //        }
+                //        userInfo.sex = wxUserInfo?.gender ?? 3;
+                //        userInfo.userWx = wxUserInfo?.id ?? 0;
+                //    }
+                //}
+                ////如果没有头像和昵称，那么就取系统头像和昵称吧
+                //if (!string.IsNullOrEmpty(entity.avatar))
+                //{
+                //    userInfo.avatarImage = entity.avatar;
+                //}
+                //else
+                //{
+                //    var allConfigs = await _settingServices.GetConfigDictionaries();
+                //    var defaultImage = CommonHelper.GetConfigDictionary(allConfigs, SystemSettingConstVars.ShopDefaultImage);
+                //    userInfo.avatarImage = defaultImage;
+                //}
+
+                //userInfo.nickName = !string.IsNullOrEmpty(entity.nickname) ? entity.nickname : UserHelper.FormatMobile(entity.mobile);
+
+                //if (entity.invitecode > 0)
+                //{
+                //    var pid = UserHelper.GetUserIdByShareCode(entity.invitecode);
+                //    var pInfo = await _dal.QueryByClauseAsync(p => p.id == pid);
+                //    if (pInfo != null)
+                //    {
+                //        userInfo.parentId = pid;
+                //    }
+                //    else
+                //    {
+                //        jm.msg = GlobalErrorCodeVars.Code10014;
+                //        return jm;
+                //    }
+                //}
+
+                //if (!string.IsNullOrEmpty(entity.password))
+                //{
+                //    //判断密码是否符合要求
+                //    if (entity.password.Length < 5 || entity.password.Length > 16)
+                //    {
+                //        jm.msg = GlobalErrorCodeVars.Code11009;
+                //        return jm;
+                //    }
+                //userInfo.passWord = CommonHelper.EnPassword(entity.password, userInfo.createTime);
+                //}
+                //else
+                //{
+                //    userInfo.passWord = "";
+                //}
+
+                ////取默认的用户等级
+                //var userGradeInfo = await _userGradeServices.QueryByClauseAsync(p => p.isDefault == true);
+                //userInfo.grade = userGradeInfo?.id ?? 0;
+
+                //var userId = await _dal.InsertAsync(userInfo);
+                //if (userId == 0)
+                //{
+                //    jm.msg = GlobalErrorCodeVars.Code10000;
+                //    return jm;
+                //}
+                //userInfo = await _dal.QueryByIdAsync(userId);
+            }
+            else
+            {
+                if (userInfo.passWord != CommonHelper.Md5For32(entity.password))
+                {
+                    jm.msg = GlobalErrorCodeVars.Code11033;
+                    return jm;
+                }
+                //if (userInfo.status != (int)GlobalEnumVars.UserStatus.正常)
+                //{
+                //    jm.msg = "账号已禁用";
+                //    return jm;
+                //}
+                ////如果有这个账号的话，判断一下是不是传密码了，如果传密码了，就是注册，这里就有问题，因为已经注册过
+                //if (!string.IsNullOrEmpty(entity.password))
+                //{
+                //    jm.msg = GlobalErrorCodeVars.Code11019;
+                //    return jm;
+                //}
+            }
+            //判断是否是小程序里的微信登陆，如果是，就给他绑定微信账号
+            //if (!string.IsNullOrEmpty(entity.sessionAuthId))
+            //{
+            //    var updateAsync = await _userWeChatInfoServices.UpdateAsync(p => new CoreCmsUserWeChatInfo() { userId = userInfo.id }, p => p.openid == entity.sessionAuthId);
+            //    if (updateAsync)
+            //    {
+            //        //多个微信可能同时授权一个号码登录。
+            //        //如果已经存在微信用户(A)数据绑定了手机号码。
+            //        //使用新微信(B)登录，同时又授权此手机号码绑定。
+            //        //小程序内微信支付时候，因为登录的微信（B）与拉取手机号码绑定后获取到数据是（A）。
+            //        //会导致微信数据报错（）
+            //        await _userWeChatInfoServices.UpdateAsync(p => new CoreCmsUserWeChatInfo() { userId = 0 }, p => p.openid != entity.sessionAuthId && p.userId == userInfo.id);
+            //    }
+            //    //如果是别的未绑定微信用户进来，则反向直接关联。
+            //    var wxUserInfo = await _userWeChatInfoServices.QueryByClauseAsync(p => p.openid == entity.sessionAuthId);
+            //    if (wxUserInfo != null)
+            //    {
+            //        await _dal.UpdateAsync(p => new CoreCmsUser() { userWx = wxUserInfo.id }, p => p.id == userInfo.id);
+            //    }
+            //}
+
+            if (userInfo.status == (int)GlobalEnumVars.UserStatus.正常)
+            {
+                var claims = new List<Claim> {
+                        new Claim(ClaimTypes.Name, userInfo.nickName),
+                        new Claim(JwtRegisteredClaimNames.Jti, userInfo.id.ToString()),
+                        new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(_permissionRequirement.Expiration.TotalSeconds).ToString()) };
+                //用户标识
+                var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
+                identity.AddClaims(claims);
+                jm.status = true;
+                jm.msg = "登录成功";
+                jm.data = JwtToken.BuildJwtToken(claims.ToArray(), _permissionRequirement);
+                //录入登录日志
+                var log = new CoreCmsUserLog();
+                log.userId = userInfo.id;
+                log.state = isReg ? (int)GlobalEnumVars.UserLogTypes.注册 : (int)GlobalEnumVars.UserLogTypes.登录;
+                log.ip = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress != null ?
+                    _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString() : "127.0.0.1";
+                log.createTime = DateTime.Now;
+                log.parameters = isReg ? GlobalEnumVars.UserLogTypes.注册.ToString() : GlobalEnumVars.UserLogTypes.登录.ToString();
+                await _userLogServices.InsertAsync(log);
+            }
+            else
+            {
+                jm.msg = GlobalErrorCodeVars.Code11022;
+                return jm;
+            }
+            return jm;
+        }
+
+        #endregion
         /// <summary>
         ///     根据条件查询分页数据
         /// </summary>

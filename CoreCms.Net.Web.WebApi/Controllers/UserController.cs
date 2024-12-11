@@ -383,7 +383,20 @@ namespace CoreCms.Net.Web.WebApi.Controllers
         }
 
         #endregion
+        #region 账号密码登录======================================================
+        /// <summary>
+        /// 账号密码登录
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<WebApiCallBack> Login([FromBody] FMWxAccountCreate entity)
+        {
+            var jm = await _userServices.Login(entity, 2, entity.platform);
+            return jm;
+        }
 
+        #endregion
         #region 微信小程序授权拉取手机号码
 
         /// <summary>

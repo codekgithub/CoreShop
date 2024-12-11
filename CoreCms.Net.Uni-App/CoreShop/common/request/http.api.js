@@ -1,4 +1,4 @@
-﻿
+
 // 此处第二个参数vm，就是我们在页面使用的this，你可以通过vm获取vuex等操作，更多内容详见uView对拦截器的介绍部分：
 // https://uviewui.com/js/http.html#%E4%BD%95%E8%B0%93%E8%AF%B7%E6%B1%82%E6%8B%A6%E6%88%AA%EF%BC%9F
 const install = (Vue, vm) => {
@@ -18,6 +18,8 @@ const install = (Vue, vm) => {
     let sms = (params = {}) => vm.$u.post('/Api/User/SendSms', params, { method: 'user.sms', needToken: false });
     // 短信验证码登录
     let smsLogin = (params = {}) => vm.$u.post('/Api/User/SmsLogin', params, { method: 'user.smslogin', needToken: false });
+	// 账号密码登录
+	let login = (params = {}) => vm.$u.post('/Api/User/Login', params, { method: 'user.login', needToken: false });
     // 退出登录
     let logout = (params = {}) => vm.$u.post('/Api/User/LogOut', params, { method: 'user.logout', needToken: true });
     // 获取首页幻灯片
@@ -391,6 +393,7 @@ const install = (Vue, vm) => {
         editInfo,
         sms,
         smsLogin,
+        login,
         logout,
         slider,
         advert,

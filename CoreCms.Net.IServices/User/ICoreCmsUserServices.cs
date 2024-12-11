@@ -104,6 +104,15 @@ namespace CoreCms.Net.IServices
         Task<WebApiCallBack> SmsLogin(FMWxAccountCreate entity,
             int loginType = (int) GlobalEnumVars.LoginType.WeChatPhoneNumber, int platform = 1);
 
+        /// <summary>
+        ///     账号密码登录
+        /// </summary>
+        /// <param name="entity">实体数据</param>
+        /// <param name="loginType">登录方式(1普通,2短信,3微信小程序拉取手机号)</param>
+        /// <param name="platform"></param>
+        /// <returns></returns>
+        Task<WebApiCallBack> Login(FMWxAccountCreate entity,
+            int loginType = (int)GlobalEnumVars.LoginType.WeChatPhoneNumber, int platform = 1);
 
         /// <summary>
         ///     根据条件查询分页数据

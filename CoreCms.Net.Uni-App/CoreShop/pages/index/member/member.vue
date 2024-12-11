@@ -424,7 +424,8 @@
                 uni.hideLoading();
             },
             goLogin() {
-                this.$store.commit('showLoginTip', true);
+                // this.$store.commit('showLoginTip', true);
+				this.$u.route('/pages/login/loginByAccount/loginByAccount');
             },
             initData() {
                 var _this = this
