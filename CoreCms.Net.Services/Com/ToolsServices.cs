@@ -75,12 +75,13 @@ namespace CoreCms.Net.Services
                 ManualDataCache.Instance.Set(ToolsVars.IllegalWordsCahceName, cache);
             }
 
-            WordsMatch wordsSearch = new WordsMatch();
+            StringSearch wordsSearch = new StringSearch();
             wordsSearch.SetKeywords(cache.Split('|', StringSplitOptions.RemoveEmptyEntries));
 
             var t = wordsSearch.Replace(oldString, symbol);
             return t;
         }
+
 
 
         /// <summary>

@@ -4,6 +4,7 @@
  */
 
 //接口请求地址，如果需要不部署接口端的情况下测试uni-app，可以直接替换为官方测试接口：https://api.demo.coreshop.cn
+// http://150.158.117.8:24580 http://localhost:2015
 export const apiBaseUrl = process.env.NODE_ENV === 'development' ?'http://localhost:2015':'/prod-api';
 //项目静态资源请求地址，如果使用官方的静态文件地址可以直接替换为：https://files.cdn.coreshop.cn
 export const apiFilesUrl = 'https://files.cdn.coreshop.cn';
